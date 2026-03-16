@@ -1,3 +1,6 @@
+// AUTHORS: Maryam, Anthony, Austin, Jasmin
+// this is a test
+
 // pin constants
 
 #define BUTTON                27
