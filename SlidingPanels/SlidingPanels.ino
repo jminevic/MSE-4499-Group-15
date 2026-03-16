@@ -1,5 +1,3 @@
-#include <MSE2202_Lib.h>
-
 // pin constants
 
 #define BUTTON                27
@@ -17,16 +15,15 @@
 #define ENCODER_RIGHT_B      12
 
 // device specification constants
-const int pinionRadius = 10 // in cm
-const int pinionPitch = 0.5 // in cm
-const int panelLength = 20 // in cm
+const int pinionRadius = 1; // in cm
+const int pinionPitch = 0.2; // in cm
+const int panelLength = 20; // in cm
 
 // PWM stuff (also constants)
 
 const int cPWMRes = 8;                    // bit resolution for PWM
 const int cMinPWM = 150;                  // PWM value for minimum speed that turns motor
 const int cMaxPWM = pow(2, cPWMRes) - 1;  // PWM value for maximum speed (255 in this case)
-const float proportionalGain = 500;       // proportional gain constant - adjust as needed
 
 //encoder software limits
 
@@ -45,10 +42,64 @@ int lastButtonState = HIGH;
 int iLeftMotorRunning = 0;
 int iRightMotorRunning = 0;
 
-// encoder object
-Motion Actuate = Motion();                // Instance of Motion for motor control
-Encoders LeftEncoder = Encoders();    // Instance of Encoders for left encoder data
-Encoders RightEncoder = Encoders();   // Instance of Encoders for right encoder data
+// encoder variables
+volatile long leftEncoderCount = 0;
+volatile long rightEncoderCount = 0;
+
+// encoder interrupt routines
+void IRAM_ATTR leftEncoderISR()
+{
+  bool a = digitalRead(ENCODER_LEFT_A);
+  bool b = digitalRead(ENCODER_LEFT_B);
+
+  if (a == b)
+    leftEncoderCount++;
+  else
+    leftEncoderCount--;
+}
+
+void IRAM_ATTR rightEncoderISR()
+{
+  bool a = digitalRead(ENCODER_RIGHT_A);
+  bool b = digitalRead(ENCODER_RIGHT_B);
+
+  if (a == b)
+    rightEncoderCount++;
+  else
+    rightEncoderCount--;
+}
+
+// helper functions to read / clear encoders
+
+long getLeftEncoderCount()
+{
+  noInterrupts();
+  long count = leftEncoderCount;
+  interrupts();
+  return count;
+}
+
+long getRightEncoderCount()
+{
+  noInterrupts();
+  long count = rightEncoderCount;
+  interrupts();
+  return count;
+}
+
+void clearLeftEncoder()
+{
+  noInterrupts();
+  leftEncoderCount = 0;
+  interrupts();
+}
+
+void clearRightEncoder()
+{
+  noInterrupts();
+  rightEncoderCount = 0;
+  interrupts();
+}
 
 // helper function to stop motors, might separate into left and right
 void stopAllMotors()
@@ -107,14 +158,22 @@ void setup() {
   pinMode(BUTTON, INPUT_PULLUP);
 
   // setup encoder objects
-  LeftEncoder.Begin(ENCODER_LEFT_A, ENCODER_LEFT_B, &iLeftMotorRunning);
-  RightEncoder.Begin(ENCODER_RIGHT_A, ENCODER_RIGHT_B, &iRightMotorRunning);
+  pinMode(ENCODER_LEFT_A, INPUT_PULLUP);
+  pinMode(ENCODER_LEFT_B, INPUT_PULLUP);
+  pinMode(ENCODER_RIGHT_A, INPUT_PULLUP);
+  pinMode(ENCODER_RIGHT_B, INPUT_PULLUP);
+
+  attachInterrupt(digitalPinToInterrupt(ENCODER_LEFT_A), leftEncoderISR, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(ENCODER_RIGHT_A), rightEncoderISR, CHANGE);
 
   // zero encoders at setup (both panels need to be at fully "in" state at startup
-  LeftEncoder.clearEncoder();
-  RightEncoder.clearEncoder();
+  clearLeftEncoder();
+  clearRightEncoder();
 
   stopAllMotors(); //duh
+
+  // debuggery
+  Serial.println("Sliding panel controller started.");
 }
 
 void loop() {
@@ -133,9 +192,9 @@ void loop() {
   // switch direction high means move out
   bool moveOutward = (directionState == HIGH);
 
-  // read encoders
-  long leftPos = LeftEncoder.getEncoderRawCount();
-  long rightPos = RightEncoder.getEncoderRawCount();
+  // update + read encoders
+  long leftPos = getLeftEncoderCount();
+  long rightPos = getRightEncoderCount();
 
   // default state is not moving
   stopAllMotors();
