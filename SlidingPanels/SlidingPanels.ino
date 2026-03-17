@@ -3,9 +3,9 @@
 
 // pin constants
 
-#define BUTTON                27
+#define BUTTON                8
 #define SWITCH_PANEL          6      // direction switch motor 1
-#define SWITCH_DIRECTION      7      // direction switch motor 2
+#define SWITCH_DIRECTION      48      // direction switch motor 2
 
 #define LEFT_MOTOR_A          35       // motor1 pin A
 #define LEFT_MOTOR_B          36       // motor1 pin B
@@ -25,16 +25,16 @@ const int panelLength = 20; // in cm
 // PWM stuff (also constants)
 
 const int cPWMRes = 8;                    // bit resolution for PWM
-const int cMinPWM = 150;                  // PWM value for minimum speed that turns motor
+const int cMinPWM = 120;                  // PWM value for minimum speed that turns motor
 const int cMaxPWM = pow(2, cPWMRes) - 1;  // PWM value for maximum speed (255 in this case)
 
 //encoder software limits
 
 const long LEFT_PANEL_MIN  = 0;      // fully retracted
-const long LEFT_PANEL_MAX  = 1200;   // fully extended
+const long LEFT_PANEL_MAX  = 5000;   // fully extended
 
 const long RIGHT_PANEL_MIN = 0;      // fully retracted
-const long RIGHT_PANEL_MAX = 1200;   // fully extended
+const long RIGHT_PANEL_MAX = 5000;   // fully extended
 
 // system variables
 
@@ -56,9 +56,9 @@ void IRAM_ATTR leftEncoderISR()
   bool b = digitalRead(ENCODER_LEFT_B);
 
   if (a == b)
-    leftEncoderCount++;
-  else
     leftEncoderCount--;
+  else
+    leftEncoderCount++;
 }
 
 void IRAM_ATTR rightEncoderISR()
@@ -67,9 +67,9 @@ void IRAM_ATTR rightEncoderISR()
   bool b = digitalRead(ENCODER_RIGHT_B);
 
   if (a == b)
-    rightEncoderCount++;
-  else
     rightEncoderCount--;
+  else
+    rightEncoderCount++;
 }
 
 // helper functions to read / clear encoders
