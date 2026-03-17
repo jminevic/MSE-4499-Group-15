@@ -7,15 +7,15 @@
 #define SWITCH_PANEL          6      // direction switch motor 1
 #define SWITCH_DIRECTION      48      // direction switch motor 2
 
-#define LEFT_MOTOR_A          35       // motor1 pin A
-#define LEFT_MOTOR_B          36       // motor1 pin B
-#define RIGHT_MOTOR_A         37       // motor2 pin A
-#define RIGHT_MOTOR_B         38       // motor2 pin B
+#define LEFT_MOTOR_A          36       // motor1 pin A
+#define LEFT_MOTOR_B          35       // motor1 pin B
+#define RIGHT_MOTOR_A         38       // motor2 pin A
+#define RIGHT_MOTOR_B         37       // motor2 pin B
 
-#define ENCODER_LEFT_A       15
-#define ENCODER_LEFT_B       16
-#define ENCODER_RIGHT_A      11
-#define ENCODER_RIGHT_B      12
+#define ENCODER_LEFT_A       16
+#define ENCODER_LEFT_B       15
+#define ENCODER_RIGHT_A      12
+#define ENCODER_RIGHT_B      11
 
 // device specification constants
 const int pinionRadius = 1; // in cm
@@ -201,17 +201,6 @@ void loop() {
 
   // default state is not moving
   stopAllMotors();
-
-  // Toggle motors ON/OFF
-  if (buttonState == LOW && lastButtonState == HIGH) {
-    motorsOn = !motorsOn;
-    delay(200);
-  }
-
-  lastButtonState = buttonState;
-
-  int toggleState1 = digitalRead(SWITCH_PANEL);
-  int toggleState2 = digitalRead(SWITCH_DIRECTION);
 
   // logic to move panels executes when button pressed
   if (buttonPressed)
