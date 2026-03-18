@@ -39,9 +39,6 @@ const long RIGHT_PANEL_MAX = 5000;   // fully extended
 // system variables
 
 int position = 0;
-int button = 0;        // push button (motor ON/OFF toggle)
-bool motorsOn = false;
-int lastButtonState = HIGH;
 int iLeftMotorRunning = 0;
 int iRightMotorRunning = 0;
 
@@ -56,9 +53,9 @@ void IRAM_ATTR leftEncoderISR()
   bool b = digitalRead(ENCODER_LEFT_B);
 
   if (a == b)
-    leftEncoderCount--;
-  else
     leftEncoderCount++;
+  else
+    leftEncoderCount--;
 }
 
 void IRAM_ATTR rightEncoderISR()
