@@ -69,10 +69,10 @@ void loop() {
 
   switch (key) {
     case '1':
-      radialUlnarTesting();
+      Serial.println("New Patient");
       break;
     case '2':
-      radialUlnarTesting();
+      Serial.println("Exiting Patient");
       break;
     default:
       Serial.println(":(");
@@ -83,8 +83,8 @@ void loop() {
   // Serial.print(position);
   // Serial.println(" degrees");
   Serial.println("Select a testing option:");
-  Serial.println("1. Radial Deviation");
-  Serial.println("2. Ulnar Deviation");
+  Serial.println("1. New Patient");
+  Serial.println("2. Existing Patient");
 }
 
 char waitForKey() {
