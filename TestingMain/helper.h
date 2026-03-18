@@ -6,6 +6,8 @@
 #define loadSDA 
 #define loadSCL 
 #define potPin 4
+#define flexExtRightPot 5
+#define flexExtLeftPot  6
 
 float radialUlnar();
 float flexExt();

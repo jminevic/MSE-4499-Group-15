@@ -21,14 +21,14 @@ float flexExt() {
   char key = waitForKey();
 
   if (key == 's') {
-    potRead = analogRead(potPin);
+    potRead = analogRead(flexExtLeftPot);
     startPosition = map(potRead, 0, 4095, -155, 155);
     Serial.println(startPosition);
 
     key = waitForKey();
 
     if (key == 'f') {
-      potRead = analogRead(potPin);
+      potRead = analogRead(flexExtLeftPot);
       finalPosition = map(potRead, 0, 4095, -155, 155);
       Serial.println(finalPosition);
 
