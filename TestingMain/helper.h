@@ -1,8 +1,10 @@
 #ifndef HELPER_H
 #define HELPER_H
 
-#define SDA 47
-#define SCL 48
+#define encodeSDA 47
+#define encodeSCL 48
+#define loadSDA 
+#define loadSCL 
 #define potPin 4
 
 float radialUlnar();

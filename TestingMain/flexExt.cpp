@@ -15,7 +15,7 @@ char waitForKey() {
   }
 }
 
-int flexExt() {
+float flexExt() {
   Serial.println("Set the hand support to a comfortable start position, then press 's' to start. Once the movement is completed, press 'f' to finish.");
 
   char key = waitForKey();

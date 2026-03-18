@@ -1,11 +1,6 @@
 #include <HX711.h>
-
 #include <AS5600.h>
 #include <Wire.h>
-
-#define SDA 47
-#define SCL 48
-#define potPin 4
 
 AS5600 encoder;
 HX711 loadCell;
