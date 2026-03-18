@@ -1,0 +1,138 @@
+#include <HX711.h>
+
+#include <AS5600.h>
+#include <Wire.h>
+
+#define SDA 47
+#define SCL 48
+#define potPin 4
+
+AS5600 encoder;
+HX711 loadCell;
+
+float calibration_factor = 15000;
+int position = 0;
+int startPosition = 0;
+int finalPosition = 0;
+int potRead = 0;
+
+
+/*
+void setup() {
+  Serial.begin(115200);
+  Wire.begin(SDA, SCL);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  uint16_t raw = encoder.readAngle();
+  float angle = raw * 360 / 4096;
+  Serial.print("Angle: ");
+  Serial.print(angle);
+  Serial.println(" degrees");
+
+  delay(200);
+}
+*/
+
+/*
+void setup() {
+  Serial.begin(9600);
+  loadCell.begin(SDA, SCL);
+
+  loadCell.set_scale(calibration_factor);
+  loadCell.tare();
+}
+
+void loop() {
+  float kgValue = loadCell.get_units() * -1;
+  Serial.print("Weight: ");
+  Serial.print(kgValue, 2);
+  Serial.println(" kg");
+
+  delay(500);
+}
+*/
+
+void setup() {
+  Serial.begin(9600);
+  while (!Serial);
+
+  Serial.println("Select user option:");
+  Serial.println("1. New Patient");
+  Serial.println("2. Existing Patient");
+}
+
+void loop() {
+
+  char key = waitForKey();
+
+  switch (key) {
+    case '1':
+      radialUlnarTesting();
+      break;
+    case '2':
+      radialUlnarTesting();
+      break;
+    default:
+      Serial.println(":(");
+      break;
+    }
+  // int potRead = analogRead(potPin);
+  // position = map(potRead, 0, 4095, -155, 155);
+  // Serial.print(position);
+  // Serial.println(" degrees");
+  Serial.println("Select a testing option:");
+  Serial.println("1. Radial Deviation");
+  Serial.println("2. Ulnar Deviation");
+}
+
+char waitForKey() {
+  while (true) {
+    if (Serial.available() > 0) {
+      char key = Serial.read();
+      if (key == '\n' || key == '\r') {
+        continue;
+      }
+      while (Serial.available() > 0) {
+          Serial.read();
+      }
+      return key;
+    }
+  }
+}
+
+int radialUlnarTesting() {
+  Serial.println("Set the hand support to a comfortable start position, then press 's' to start. Once the movement is completed, press 'f' to finish.");
+
+  char key = waitForKey();
+
+  if (key == 's') {
+    potRead = analogRead(potPin);
+    startPosition = map(potRead, 0, 4095, -155, 155);
+    Serial.println(startPosition);
+
+    key = waitForKey();
+
+    if (key == 'f') {
+      potRead = analogRead(potPin);
+      finalPosition = map(potRead, 0, 4095, -155, 155);
+      Serial.println(finalPosition);
+
+      int totalAngle = (finalPosition - startPosition);
+      Serial.print("Total angle: ");
+      Serial.print(totalAngle);
+      Serial.println(" degrees");
+
+      return totalAngle;
+    }
+    else {
+      Serial.println("Not 'f' fam");
+      return 0;
+    }
+  }
+  else {
+    Serial.println("Not 's' fam");
+    return 0;
+  }
+}
