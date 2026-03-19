@@ -4,7 +4,7 @@
 #define encodeSDA 47
 #define encodeSCL 48
 #define loadSDA 
-#define loadSCL 
+#define loadSCL
 #define potPin 4
 #define flexExtRightPot 5
 #define flexExtLeftPot  6

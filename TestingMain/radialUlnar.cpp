@@ -1,23 +1,9 @@
 #include "helper.h"
+#include "waitForKey.h"
 
 int startPosition = 0;
 int finalPosition = 0;
 int potRead = 0;
-
-char waitForKey() {
-  while (true) {
-    if (Serial.available() > 0) {
-      char key = Serial.read();
-      if (key == '\n' || key == '\r') {
-        continue;
-      }
-      while (Serial.available() > 0) {
-          Serial.read();
-      }
-      return key;
-    }
-  }
-}
 
 float radialUlnar() {
   Serial.println("Set the hand support to a comfortable start position, then press 's' to start. Once the movement is completed, press 'f' to finish.");

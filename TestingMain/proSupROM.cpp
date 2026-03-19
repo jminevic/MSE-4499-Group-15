@@ -1,22 +1,8 @@
 #include "helper.h"
+#include "waitForKey.h"
 #include <AS5600.h>
 
 AS5600 encoder;
-
-char waitForKey() {
-  while (true) {
-    if (Serial.available() > 0) {
-      char key = Serial.read();
-      if (key == '\n' || key == '\r') {
-        continue;
-      }
-      while (Serial.available() > 0) {
-          Serial.read();
-      }
-      return key;
-    }
-  }
-}
 
 float proSupROM() {
   Serial.println("Hold the handle in the starting position, then press 's' to start. Once the maximum rotation is complete, press 'f' to finish.");
