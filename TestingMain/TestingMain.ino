@@ -7,43 +7,8 @@
 HX711 loadCell;
 
 float calibration_factor = 15000;
-
-/*
-void setup() {
-  Serial.begin(115200);
-  Wire.begin(SDA, SCL);
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-  uint16_t raw = encoder.readAngle();
-  float angle = raw * 360 / 4096;
-  Serial.print("Angle: ");
-  Serial.print(angle);
-  Serial.println(" degrees");
-
-  delay(200);
-}
-*/
-
-/*
-void setup() {
-  Serial.begin(9600);
-  loadCell.begin(SDA, SCL);
-
-  loadCell.set_scale(calibration_factor);
-  loadCell.tare();
-}
-
-void loop() {
-  float kgValue = loadCell.get_units() * -1;
-  Serial.print("Weight: ");
-  Serial.print(kgValue, 2);
-  Serial.println(" kg");
-
-  delay(500);
-}
-*/
+bool running = false;  // flag for infinite testing loop
+int results[3]; // results[0], result[1], results[2]
 
 void setup() {
   Serial.begin(9600);
@@ -58,7 +23,7 @@ void setup() {
   Serial.println("1. New Patient");
   Serial.println("2. Existing Patient");
 
-
+  
 }
 
 void loop() {
@@ -76,6 +41,70 @@ void loop() {
       Serial.println(":(");
       break;
     }
+
+  running = true;     // ensure flag is set to true after patient selected
+
+  while(running) {
+
+    Serial.println("Select Which Test to Perform. Press x to exit.");
+    Serial.println("1. Pronation / Supination Range of Motion");
+    Serial.println("2. Pronation / Supintation Torque");
+    Serial.println("3. Pinch Grip Test");
+    Serial.println("4. Radial / Ulnar Deviation");
+    Serial.println("5. Wrist Flexion / Extension");
+
+    char testKey = waitForKey();
+
+    switch (testKey) {
+    case '1': // pronation supination ROM
+      Serial.println("Pronation / Supination Range of Motion Selected.");
+      Serial.println("Select Option");
+      Serial.println("1. Pronate Left");
+      Serial.println("2. Supinate Left");
+      Serial.println("3. Pronate Right");
+      Serial.println("4. Supinate Right");
+
+      char optionSelect = waitForKey();
+
+      for (int i=0; 2; i++) {
+        Serial.println("Trial " + i + " of 3.");
+        results[i] = proSupROM();
+      }
+
+      if (optionSelect == 1) {
+        // save data to left pronate
+      } else if (optionSelect == 2) {
+        // save data to left supinate
+      } else if (optionSelect == 2) {
+        // save data to right pronate
+      } else if (optionSelect == 2) {
+        // save data to right supinate
+      } else {
+        "Invalid Selection"
+      }
+
+      break;
+    case '2': // pronation supination torque
+      Serial.println("Existing Patient");
+      break;
+    case '3': // pinch strength
+      Serial.println("New Patient");
+      break;
+    case '4': // radial ulnar deviation
+      Serial.println("Existing Patient");
+      break;
+    case '5': // wrist flexion and extension
+      Serial.println("New Patient");
+      break;
+    case 'x': // exit testing, select new patient
+      Serial.println("Exiting Test...");
+      running = false;
+      break;
+    default:
+      Serial.println("Invalid Input");
+      break;
+    }
+  }
 
   Serial.println("Select a testing option:");
   Serial.println("1. New Patient");
