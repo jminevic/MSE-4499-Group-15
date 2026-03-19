@@ -2,9 +2,6 @@
 #include <AS5600.h>
 #include <Wire.h>
 
-AS5600 encoder;
-HX711 loadCell;
-
 float calibration_factor = 15000;
 int position = 0;
 int startPosition = 0;
