@@ -1,11 +1,13 @@
+#include <Arduino.h>
 #include "helper.h"
 #include "waitForKey.h"
 
-int startPosition = 0;
-int finalPosition = 0;
-int potRead = 0;
-
 float radialUlnar() {
+
+  int startPosition = 0;
+  int finalPosition = 0;
+  int potRead = 0;
+
   Serial.println("Set the hand support to a comfortable start position, then press 's' to start. Once the movement is completed, press 'f' to finish.");
 
   char key = waitForKey();

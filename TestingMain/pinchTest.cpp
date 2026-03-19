@@ -1,14 +1,14 @@
+#include <Arduino.h>
 #include "helper.h"
 #include "waitForKey.h"
 #include <HX711.h>
 
-HX711 loadCell;
-
-float maxLoad = 0;
-float load = 0;
-int startTime = 0;
-
 float pinchTest() {
+
+  float maxLoad = 0;
+  float load = 0;
+  int startTime = 0;
+
   Serial.println("Set your hand to the initial position for the desired pinch strength test, then press 's' to start.");
 
   char key = waitForKey();

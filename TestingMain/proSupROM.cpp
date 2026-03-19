@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include "helper.h"
 #include "waitForKey.h"
 #include <AS5600.h>

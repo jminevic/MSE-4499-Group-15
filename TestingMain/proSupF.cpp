@@ -1,14 +1,14 @@
+#include <Arduino.h>
 #include "helper.h"
 #include "waitForKey.h"
 #include <HX711.h>
 
-HX711 loadCell;
+float proSupF() {
 
-const int testLength = 5000; // 5 seconds
-volatile float highestForceApp = 0; // initial
-int start = 0;
-
-float proSupROM() {
+  const int testLength = 5000; // 5 seconds 
+  volatile float highestForceApp = 0; // initial
+  int start = 0;
+  
   Serial.println("Hold the handle in the starting position, then press 's' to start. Once the test begins, apply maximum force for 5 seconds. The maximum value will be recorded.");
 
   char key = waitForKey();

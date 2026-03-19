@@ -1,13 +1,12 @@
-#include <HX711.h>
-#include <AS5600.h>
+#include <HX711.h> // HX711 Arduino Library by Bogdan Necula
+#include <AS5600.h> // AS5600 by Rob Tillaart
 #include <Wire.h>
+#include "helper.h"
+#include "waitForKey.h"
+
+HX711 loadCell;
 
 float calibration_factor = 15000;
-int position = 0;
-int startPosition = 0;
-int finalPosition = 0;
-int potRead = 0;
-
 
 /*
 void setup() {
@@ -48,16 +47,22 @@ void loop() {
 
 void setup() {
   Serial.begin(9600);
+  Wire.begin(encodeSDA, encodeSCL);
+  loadCell.begin(loadSDA, loadSCL);
+  loadCell.set_scale(calibration_factor);
+  loadCell.tare();
+
   while (!Serial);
 
   Serial.println("Select user option:");
   Serial.println("1. New Patient");
   Serial.println("2. Existing Patient");
+
+
 }
 
 void loop() {
 
-  int measurement = radialUlnar(potPin);
   char key = waitForKey();
 
   switch (key) {
@@ -65,16 +70,13 @@ void loop() {
       Serial.println("New Patient");
       break;
     case '2':
-      Serial.println("Exiting Patient");
+      Serial.println("Existing Patient");
       break;
     default:
       Serial.println(":(");
       break;
     }
-  // int potRead = analogRead(potPin);
-  // position = map(potRead, 0, 4095, -155, 155);
-  // Serial.print(position);
-  // Serial.println(" degrees");
+
   Serial.println("Select a testing option:");
   Serial.println("1. New Patient");
   Serial.println("2. Existing Patient");
