@@ -10,7 +10,8 @@
 #define flexExtLeftPot  6
 
 float radialUlnar();
-float flexExt();
+float flexExtLeft();
+float flexExtRight();
 float proSupF();
 float proSupROM();
 float pinchTest();
