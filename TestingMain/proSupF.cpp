@@ -5,7 +5,9 @@
 
 float proSupF() {
 
-  const int testLength = 5000; // 5 seconds 
+  const int testLength = 5000; // 5 seconds
+  const float momentArm = 0; //change this value after measuring moment arm
+  volatile float highestTorqueApp = 0; //inital
   volatile float highestForceApp = 0; // initial
   int start = 0;
   
@@ -25,7 +27,8 @@ float proSupF() {
         highestForceApp = kgValue;
       }
     }
-    return highestForceApp;
+    highestTorqueApp = highestForceApp * momentArm;
+    return highestTorqueApp;
   } else {
     Serial.println("Not 's' fam");
     return 0;
