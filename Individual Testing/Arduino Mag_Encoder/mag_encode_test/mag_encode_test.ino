@@ -1,8 +1,8 @@
 #include <AS5600.h>
 #include <Wire.h>
 
-#define SDA 47
-#define SCL 48
+#define SDA 35
+#define SCL 36
 #define potPin 4
 
 AS5600 encoder;
@@ -15,7 +15,6 @@ int finalPosition = 0;
 int potRead = 0;
 
 
-
 void setup() {
   Serial.begin(115200);
   Wire.begin(SDA, SCL);
@@ -24,7 +23,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   uint16_t raw = encoder.readAngle();
-  float angle = raw * 360 / 4096;
+  float angle = (raw * 360 / 4096);
   Serial.print("Angle: ");
   Serial.print(angle);
   Serial.println(" degrees");

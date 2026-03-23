@@ -6,8 +6,8 @@
 
 extern HX711 loadCell;
 
-#define encodeSDA 47
-#define encodeSCL 48
+#define encodeSDA 37
+#define encodeSCL 38
 #define loadSDA 35
 #define loadSCL 36
 #define potPin 4
