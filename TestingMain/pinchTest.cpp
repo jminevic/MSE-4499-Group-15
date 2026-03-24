@@ -19,6 +19,9 @@ float pinchTest() {
 
     while (millis() < (startTime + 5000)) {
       load = loadCell.get_units() * -1;
+      Serial.print("Weight: ");
+      Serial.print(load, 2);
+      Serial.println(" kg");
       if (load > maxLoad) {
         maxLoad = load;
       }
