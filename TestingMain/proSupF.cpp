@@ -6,7 +6,7 @@
 float proSupF() {
 
   const int testLength = 5000; // 5 seconds
-  const float momentArm = 0; //change this value after measuring moment arm
+  const float momentArm = 100; //change this value after measuring moment arm
   volatile float highestTorqueApp = 0; //inital
   volatile float highestForceApp = 0; // initial
   int start = 0;
@@ -19,9 +19,9 @@ float proSupF() {
     start = millis();
     while(millis() < start + testLength) {
       float kgValue = loadCell.get_units() * -1;
-      Serial.print("Weight: ");
-      Serial.print(kgValue, 2);
-      Serial.println(" kg");
+      Serial.print("Torque: ");
+      Serial.print(kgValue * momentArm, 2);
+      Serial.println(" kg-mm");
 
       if (kgValue > highestForceApp) {
         highestForceApp = kgValue;

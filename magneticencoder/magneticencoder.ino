@@ -1,8 +1,8 @@
 #include <AS5600.h>
 #include <Wire.h>
 
-#define SDA 35
-#define SCL 36
+#define SDA 37
+#define SCL 38
 
 AS5600 encoder;
 

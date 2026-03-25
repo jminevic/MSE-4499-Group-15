@@ -26,7 +26,7 @@ float proSupROM() {
       Serial.print(finalAngle);
       Serial.println(" degrees");
 
-      int totalAngle = (finalAngle - startAngle);
+      float totalAngle = (finalAngle - startAngle);
       Serial.print("Total angle: ");
       Serial.print(totalAngle);
       Serial.println(" degrees");

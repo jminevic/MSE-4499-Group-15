@@ -187,7 +187,7 @@ void loop() {
 
       optionSelect = waitForKey();
 
-      if (optionSelect == 1) {
+      if (optionSelect == '1') {
         for (int i=0; i < 3; i++) {
           Serial.println("Trial ");
           Serial.print(i);
@@ -195,7 +195,7 @@ void loop() {
           results[i] = flexExtLeft();
         }
         // save data to left flexion
-      } else if (optionSelect == 2) {
+      } else if (optionSelect == '2') {
         for (int i=0; i < 3; i++) {
           Serial.println("Trial ");
           Serial.print(i);
@@ -203,7 +203,7 @@ void loop() {
           results[i] = flexExtLeft();
         }
         // save data to left extension
-      } else if (optionSelect == 3) {
+      } else if (optionSelect == '3') {
         for (int i=0; i < 3; i++) {
           Serial.println("Trial ");
           Serial.print(i);
@@ -211,7 +211,7 @@ void loop() {
           results[i] = flexExtRight();
         }
         // save data to right flexion
-      } else if (optionSelect == 4) {
+      } else if (optionSelect == '4') {
         for (int i=0; i < 3; i++) {
           Serial.println("Trial ");
           Serial.print(i);
