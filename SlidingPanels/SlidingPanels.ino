@@ -17,6 +17,9 @@
 #define ENCODER_RIGHT_A      15
 #define ENCODER_RIGHT_B      16
 
+#define LIMIT_SWITCH         43
+#define LED                  44
+
 // device specification constants
 const int pinionRadius = 1; // in cm
 const int pinionPitch = 0.2; // in cm
@@ -146,16 +149,18 @@ void setup() {
   Serial.begin(115200); //115200 baud is elite, is faster
 
 
-  // motor pins
+  // motor and output pins
   pinMode(LEFT_MOTOR_A, OUTPUT);
   pinMode(LEFT_MOTOR_B, OUTPUT);
   pinMode(RIGHT_MOTOR_A, OUTPUT);
   pinMode(RIGHT_MOTOR_B, OUTPUT);
+  pinMode(LED, OUTPUT);
 
   // input pins
   pinMode(SWITCH_PANEL, INPUT_PULLUP);
   pinMode(SWITCH_DIRECTION, INPUT_PULLUP);
   pinMode(BUTTON, INPUT_PULLUP);
+  pinMode(LIMIT_SWITCH, INPUT_PULLUP);
 
   // setup encoder objects
   pinMode(ENCODER_LEFT_A, INPUT_PULLUP);
@@ -198,6 +203,15 @@ void loop() {
 
   // default state is not moving
   stopAllMotors();
+
+  // limit switch check
+  int limitState = digitalRead(LIMIT_SWITCH);
+  if (limitState == LOW) {
+    digitalWrite(LED, HIGH);
+  }
+  else {
+    digitalWrite(LED, LOW);
+  }
 
   // logic to move panels executes when button pressed
   if (buttonPressed)
