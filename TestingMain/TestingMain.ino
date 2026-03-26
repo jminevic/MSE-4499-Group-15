@@ -77,94 +77,12 @@ void loop() {
       handlePinchTest();
       break;
 
-<<<<<<< Updated upstream
-    case '4': // radial ulnar deviation
-      Serial.println("Radial / Ulnar Deviation Selected.");
-      Serial.println("Select Direction and Hand:");
-      Serial.println("1. Radial, Left");
-      Serial.println("2. Ulnar, Left");
-      Serial.println("3. Radial, Right");
-      Serial.println("4. Ulnar, Right");
-
-      optionSelect = waitForKey();
-
-      Serial.println("Enter hand size (mm):");
-      while (Serial.available() == 0) {
-      }
-      handSize = Serial.parseFloat();
-
-      for (int i=0; i < 3; i++) {
-        Serial.println("Trial ");
-        Serial.print(i);
-        Serial.println(" of 3");
-        results[i] = radialUlnar(handSize);
-      }
-      if (optionSelect == 1) {
-        // save data to left radial
-      } else if (optionSelect == 2) {
-        // save data to left ulnar
-      } else if (optionSelect == 3) {
-        // save data to right radial
-      } else if (optionSelect == 4) {
-        // save data to right ulnar
-      } else {
-        Serial.println("Invalid Option");
-      }
-      break;
-
-    case '5': // wrist flexion and extension
-      Serial.println("Wrist Flexion / Extension Selected.");
-      Serial.println("Select Direction and Hand:");
-      Serial.println("1. Flexion, Left");
-      Serial.println("2. Extension, Left");
-      Serial.println("3. Flexion, Right");
-      Serial.println("4. Extension, Right");
-
-      optionSelect = waitForKey();
-
-      if (optionSelect == '1') {
-        for (int i=0; i < 3; i++) {
-          Serial.println("Trial ");
-          Serial.print(i);
-          Serial.println(" of 3");
-          results[i] = flexExtLeft();
-        }
-        // save data to left flexion
-      } else if (optionSelect == '2') {
-        for (int i=0; i < 3; i++) {
-          Serial.println("Trial ");
-          Serial.print(i);
-          Serial.println(" of 3");
-          results[i] = flexExtLeft();
-        }
-        // save data to left extension
-      } else if (optionSelect == '3') {
-        for (int i=0; i < 3; i++) {
-          Serial.println("Trial ");
-          Serial.print(i);
-          Serial.println(" of 3");
-          results[i] = flexExtRight();
-        }
-        // save data to right flexion
-      } else if (optionSelect == '4') {
-        for (int i=0; i < 3; i++) {
-          Serial.println("Trial ");
-          Serial.print(i);
-          Serial.println(" of 3");
-          results[i] = flexExtRight();
-        }
-        // save data to right extension
-      } else {
-        Serial.println("Invalid Option");
-      }
-=======
     case '4':
       handleRadialUlnar();
       break;
 
     case '5':
       handleFlexExt();
->>>>>>> Stashed changes
       break;
 
     case 'x':
@@ -327,7 +245,18 @@ void handleRadialUlnar() {
   Serial.println("4. Ulnar, Right");
 
   optionSelect = waitForKey();
-  runThreeTrials(radialUlnar);
+
+  Serial.println("Enter hand size (mm):");
+      while (Serial.available() == 0) {
+      }
+      handSize = Serial.parseFloat();
+
+  for (int i = 0; i < 3; i++) {
+    Serial.print("Trial ");
+    Serial.print(i + 1);
+    Serial.println(" of 3");
+    results[i] = radialUlnar(handSize);
+  } 
 
   if (optionSelect == '1') {
     emitResult("Radial/Ulnar Deviation ROM", "Radial Deviation Angle", "L");
