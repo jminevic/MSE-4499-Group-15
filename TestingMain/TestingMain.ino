@@ -10,6 +10,7 @@ float calibration_factor = 24440;
 bool running = false;  // flag for infinite testing loop
 float results[3]; // results[0], result[1], results[2]
 char optionSelect;
+float handSize = 0.0;
 
 void setup() {
   Serial.begin(9600);
@@ -158,11 +159,16 @@ void loop() {
 
       optionSelect = waitForKey();
 
+      Serial.println("Enter hand size (mm):");
+      while (Serial.available() == 0) {
+      }
+      handSize = Serial.parseFloat();
+
       for (int i=0; i < 3; i++) {
         Serial.println("Trial ");
         Serial.print(i);
         Serial.println(" of 3");
-        results[i] = radialUlnar();
+        results[i] = radialUlnar(handSize);
       }
       if (optionSelect == 1) {
         // save data to left radial

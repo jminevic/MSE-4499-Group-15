@@ -14,7 +14,7 @@ extern HX711 loadCell;
 #define flexExtRightPot 5
 #define flexExtLeftPot  6
 
-float radialUlnar();
+float radialUlnar(float handSize);
 float flexExtLeft();
 float flexExtRight();
 float proSupF();
